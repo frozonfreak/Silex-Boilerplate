@@ -1,6 +1,7 @@
 <?php
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+
 //Controllers for Router
 
 	class Controller{
@@ -34,7 +35,7 @@ use Symfony\Component\HttpFoundation\Request;
 			return $output;
 		}
 		public function blogwithID(Request $request, Application $app, $id){
-			$blogPosts = array(
+			/*$blogPosts = array(
 			    1 => array(
 			        'date'      => '2011-03-29',
 			        'author'    => 'igorw',
@@ -50,6 +51,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 			return  "<h1>{$post['title']}</h1>".
 			        "<p>{$post['body']}</p>";
+			        */
+			       $sql = "SELECT * FROM posts WHERE id = 1";
+			           $post = $app['db']->fetchAll($sql);
+
+			            return  "<h1>{$post[0]['title']}</h1>".
+			                    "<p>{$post[0]['body']}</p>";
 		}
 
 	}

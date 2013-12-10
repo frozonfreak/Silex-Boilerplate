@@ -3,9 +3,14 @@
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Configuration;
+use \Doctrine\Common\Cache\ApcCache;
+use \Doctrine\Common\Cache\ArrayCache;
+
 
 //Silex Initialiazer file
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 //Controller File
 require_once __DIR__.'/Controller.php';
@@ -14,7 +19,17 @@ require_once __DIR__.'/Controller.php';
 $app = new Silex\Application();
 $app['debug'] = true;
 // definitions
-
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+    'db.options' => array(
+        'driver'    => 'pdo_mysql',
+            'host'      => 'localhost',
+            'dbname'    => 'test',
+            'user'      => 'root',
+            'password'  => 'root',
+            'charset'   => 'utf8',
+    ),	
+));
+$app->register(new Silex\Provider\SessionServiceProvider());
 $blogPosts = array(
     1 => array(
         'date'      => '2011-03-29',
