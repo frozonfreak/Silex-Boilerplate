@@ -3,7 +3,13 @@
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+
+//Silex Initialiazer file
 require_once __DIR__.'/../vendor/autoload.php';
+
+//Controller File
+require_once __DIR__.'/Controller.php';
+
 
 $app = new Silex\Application();
 $app['debug'] = true;
@@ -78,7 +84,7 @@ $app->get('/forwards', function () use ($app) {
 
     return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
 });
-$app->get('/blog', function () use ($blogPosts) {
+/*$app->get('/blog', function () use ($blogPosts) {
     $output = '';
     foreach ($blogPosts as $post) {
         $output .= $post['date'];
@@ -92,8 +98,10 @@ $app->get('/blog', function () use ($blogPosts) {
     }
 
     return $output;
-});
-$app->get('/blog/{id}', function (Silex\Application $app, $id) use ($blogPosts) {
+});*/
+$app->get('/blog', 'Controller::blog');
+
+/*$app->get('/blog/{id}', function (Silex\Application $app, $id) use ($blogPosts) {
     if (!isset($blogPosts[$id])) {
         $app->abort(404, "Post $id does not exist.");
     }
@@ -102,7 +110,9 @@ $app->get('/blog/{id}', function (Silex\Application $app, $id) use ($blogPosts) 
 
     return  "<h1>{$post['title']}</h1>".
             "<p>{$post['body']}</p>";
-});
+});*/
+$app->get('/blog/{id}', 'Controller::blogwithID');
+
 //POST Request
 $app->post('/feedback', function () {
     $message = $request->get('message');
